@@ -73,7 +73,7 @@ const Cart = ()=>{
     
     return(
         <>
-            <Menu rigthMenu={true}/>
+            <Menu showRightMenu={true}/>
             <div className="flex justify-center">
                 <div className="md:w-4/5">
                     <div className="text-[30px]">

@@ -13,16 +13,12 @@ export const BuyButton = ({ productId }: { productId: string }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/cart/add", {
+      const response = await fetch(`http://localhost:8080/api/v1/cart/add/${productId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           authorization: token,
-        },
-        body: JSON.stringify({
-          productId,
-          quantity: 1,
-        }),
+        }
       });
 
       if (response.status === 401) {
