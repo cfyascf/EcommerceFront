@@ -17,7 +17,7 @@ export const BuyButton = ({ productId }: { productId: string }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: token,
+          Authorization: `Bearer ${token}`,
         }
       });
 

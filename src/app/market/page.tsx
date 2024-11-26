@@ -35,9 +35,8 @@ const Market = () => {
         }
 
         const result = await res.json();
-        setData(result.data);
-        console.log(result)
-        console.log(result.data)
+        setData(Object.values(result.data));
+        console.log(Object.values(result.data))
 
       } catch (err) {
         console.error("Failed to fetch products", err);
@@ -47,10 +46,6 @@ const Market = () => {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(data.length)
-  }, [data])
 
   return (
     <>
