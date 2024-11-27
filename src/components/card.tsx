@@ -48,7 +48,7 @@ export const ProductCard = (item : { name: string, id: number, description: stri
                         />
                     </div>
                     <div className="p-1">
-                        <div className="flex justify-center font-bold">{item.name}</div>
+                        <div className="flex justify-center font-bold">{item.id}: {item.name}</div>
                         <div className="flex justify-center">
                             <p className="flex items-center text-center p-1">
                                 {item.description}
@@ -61,7 +61,7 @@ export const ProductCard = (item : { name: string, id: number, description: stri
                         </div>
                         <div className="flex justify-center">
                         <button
-                            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
+                            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2 hover:bg-pink-700"
                             onClick={() => handleBuy(item.id)}
                             >
                             Buy

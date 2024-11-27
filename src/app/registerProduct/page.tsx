@@ -54,49 +54,49 @@ export default function RegisterProduct() {
       <div className="flex justify-center align-center mt-6 mb-6">
         <div className="flex flex-col p-6 rounded-md w-4/5 md:w-1/3">
           <label htmlFor="name" className="text-black text-medium">
-            Nome do Produto:
+            Product Name:
           </label>
           <input
             type="text"
             id="name"
-            placeholder="Digite o nome do produto"
+            placeholder="Product name.."
             className="p-2 border-2 text-small text-black"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <label htmlFor="description" className="text-black text-medium">
-            Descrição:
+            Description:
           </label>
           <input
             type="text"
             id="description"
-            placeholder="Digite a descrição do produto"
+            placeholder="Product description.."
             className="p-2 text-small text-black border-2"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <label htmlFor="price" className="text-black text-medium">
-            Preço:
+            Price:
           </label>
           <input
             type="number"
             step="0.01"
             id="price"
-            placeholder="Digite o preço"
+            placeholder="Price.."
             className="p-2 text-small text-black border-2"
             value={price || ""}
             onChange={(e) => setPrice(Number(e.target.value))}
           />
 
           <label htmlFor="stock" className="text-black text-medium">
-            Estoque:
+            Stock Quantity:
           </label>
           <input
             type="number"
             id="stock"
-            placeholder="Digite o estoque"
+            placeholder="Stock quantity..."
             className="p-2 text-small text-black border-2"
             value={stock_qty || ""}
             onChange={(e) => setStock_qty(Number(e.target.value))}
@@ -104,7 +104,7 @@ export default function RegisterProduct() {
 
           {error && (
             <div className="text-red-600 mt-2">
-              Erro ao cadastrar produto! Verifique os campos.
+              Failed to register product! Check the fields.
             </div>
           )}
 
@@ -113,7 +113,7 @@ export default function RegisterProduct() {
             className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleNewProduct}
           >
-            Cadastrar novo produto
+            Register new product
           </button>
         </div>
       </div>

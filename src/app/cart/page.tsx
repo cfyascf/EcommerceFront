@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { ROUTES } from "../constants/routes";
 import Image from "next/image";
 
@@ -57,15 +57,11 @@ const Cart = () => {
                 }
 
                 const result = await res.json();
-                console.log(result)
-
-
                 const cart: IData = {
                     values: result.data.values,
-                    products: Object.values(result.data.products)
+                    products: Object.values(result.data.products),
                 };
                 setData(cart);
-                console.log(cart)
             } catch (err) {
                 console.error("Failed to fetch cart data", err);
                 setError(true);
@@ -74,27 +70,6 @@ const Cart = () => {
 
         loadCartData();
     }, [router]);
-
-    const removeProduct = useCallback(async (productId: number) => {
-        const token = sessionStorage.getItem("Token");
-        if (!token) return;
-
-        try {
-            await fetch(`http://localhost:8080/api/v1/cart/remove/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            // Reload cart data after removing product
-            const updatedData = await fetchCartData();
-            setData(updatedData);
-        } catch (err) {
-            console.error("Failed to remove product", err);
-        }
-    }, []);
 
     const fetchCartData = async () => {
         const token = sessionStorage.getItem("Token");
@@ -111,6 +86,65 @@ const Cart = () => {
         return res.json();
     };
 
+    const removeProduct = useCallback(
+        async (productId: number) => {
+            const token = sessionStorage.getItem("Token");
+            if (!token) return;
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/v1/cart/remove/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to remove product");
+                }
+
+                const updatedCart = await fetchCartData();
+
+                if (updatedCart?.data?.values && Array.isArray(updatedCart?.data?.products)) {
+                    setData({
+                        values: updatedCart.data.values,
+                        products: updatedCart.data.products,
+                    });
+                } else {
+                    throw new Error("Invalid cart data structure");
+                }
+            } catch (err) {
+                console.error("Failed to remove product", err);
+            }
+        },
+        [fetchCartData]
+    );
+
+    const handleBuy = useCallback(async () => {
+        const token = sessionStorage.getItem("Token");
+
+        try {
+            const res = await fetch("http://localhost:8080/api/v1/payment/pix", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to complete the purchase");
+            }
+
+            alert("Purchase successful!");
+            setData(null);
+            
+        } catch (err) {
+            console.error("Failed to complete purchase", err);
+        }
+    }, []);
+
     if (error) {
         return (
             <>
@@ -119,7 +153,7 @@ const Cart = () => {
                     <p className="text-red-500">Error loading cart. Please try again later.</p>
                 </div>
             </>
-        )
+        );
     }
 
     return (
@@ -128,15 +162,11 @@ const Cart = () => {
             <div className="flex justify-center">
                 <div className="md:w-4/5">
                     <div className="text-[30px]">
-                        <h1>Cart:</h1>
-                    </div>
-                    <div className="text-[20px]">
-                        <p>Products:</p>
+                        <h1>Cart</h1>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        {data?.products && data?.products.length! > 0 ? (
-                            data!.products.map((item) => (
-                                <>
+                        {data?.products && data.products.length > 0 ? (
+                            data.products.map((item) => (
                                 <div key={item.id} className="flex shadow m-2 rounded-[18px] md:w-2/3">
                                     <Image
                                         src={cat}
@@ -150,23 +180,29 @@ const Cart = () => {
                                             <button onClick={() => removeProduct(item.id)}>❌</button>
                                         </div>
                                         <p className="text-[15px]">Stock Quantity: {item.stock_qty}</p>
-                                        <p className="text-[17px] text-red-600">Price: {item.price}</p>
+                                        <p className="text-[17px] text-pink-500">Price: {item.price}</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-col justify-center text-[20px] absolute bottom-0 w-full border-2 bg-white p-2">
-                                        <p className="text-center">
-                                            Total Price:
-                                            <span className="font-bold">${data?.values.total_price}</span>
-                                        </p>
-                                        <div className="flex justify-center">
-                                            <button className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2">Buy</button>
-                                        </div>
-                                    </div>
-                                </>
                             ))
                         ) : (
                             <div className="text-center text-gray-500">No product in the cart.</div>
                         )}
+                    </div>
+                    <div className="flex flex-col justify-center text-[20px] w-full bg-white p-2">
+                        <p className="text-center">
+                            Total Price:
+                            <span className="font-bold">
+                                ${data?.values?.total_price ?? "0.00"}
+                            </span>
+                        </p>
+                        <div className="flex justify-center">
+                            <button
+                                onClick={handleBuy}
+                                className="w-1/3 bg-pink-300 text-white rounded-md p-2 m-2 hover:bg-pink-700"
+                            >
+                                Buy
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
