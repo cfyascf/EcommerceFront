@@ -85,7 +85,7 @@ export default function Home() {
 
           {error && <div className="text-red-100">Invalid data.</div>}
 
-          <button type="submit" className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2" onClick={() => { registerUser() }}>Create Account</button>
+          <button type="submit" className="w-3/3 bg-pink-300 text-white rounded-md p-2 m-2" onClick={() => { registerUser() }}>Create Account</button>
         </div>
       </div>
     </>

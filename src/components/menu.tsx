@@ -46,7 +46,7 @@ export const Menu = ({ showRightMenu }: { showRightMenu: boolean }) => {
                 <h1 className="text-white">Register</h1>
                 </Link>
                 <button
-                  className="w-16 bg-white text-pink-700 rounded-md p-2 m-2"
+                  className="w-16 bg-white text-pink-700 rounded-md p-2 m-2 hover:bg-pink-700 hover:text-white"
                   onClick={handleLogoff}
                 >
                   Logout

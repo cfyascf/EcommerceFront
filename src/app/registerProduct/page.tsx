@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/app/constants/routes";
 import { Menu } from "@/components/menu";
+import { Input } from "@/components/input";
 
 export default function RegisterProduct() {
   const [name, setName] = useState<string>("");
@@ -21,31 +22,31 @@ export default function RegisterProduct() {
     }
 
     try {
-        var token = sessionStorage.getItem("Token");
-        const response = await fetch("http://localhost:8080/api/v1/products", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` 
-            },
-            body: JSON.stringify({ name, description, price, stock_qty }),
-        });
+      var token = sessionStorage.getItem("Token");
+      const response = await fetch("http://localhost:8080/api/v1/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ name, description, price, stock_qty }),
+      });
 
-        if (!response.ok) {
-            setError(true);
-            return;
-        }
-
-        const result = await response.json();
-        console.log(result);
-
-        setError(false);
-        alert("Produto cadastrado com sucesso!");
-        router.push(ROUTES.market);
-        } catch (err) {
-        console.error("Erro ao cadastrar produto:", err);
+      if (!response.ok) {
         setError(true);
-        }
+        return;
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      setError(false);
+      alert("Produto cadastrado com sucesso!");
+      router.push(ROUTES.market);
+    } catch (err) {
+      console.error("Erro ao cadastrar produto:", err);
+      setError(true);
+    }
   };
 
   return (
@@ -53,53 +54,49 @@ export default function RegisterProduct() {
       <Menu showRightMenu={true} />
       <div className="flex justify-center align-center mt-6 mb-6">
         <div className="flex flex-col p-6 rounded-md w-4/5 md:w-1/3">
-          <label htmlFor="name" className="text-black text-medium">
-            Product Name:
-          </label>
-          <input
+
+          <Input
+            htmlFor="name"
+            label="Product Name:"
             type="text"
             id="name"
-            placeholder="Product name.."
-            className="p-2 border-2 text-small text-black"
+            name="name"
+            placeholder="Type product name..."
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="description" className="text-black text-medium">
-            Description:
-          </label>
-          <input
+          <Input
+            htmlFor="description"
+            label="Product Description:"
             type="text"
             id="description"
-            placeholder="Product description.."
-            className="p-2 text-small text-black border-2"
+            name="description"
+            placeholder="Type product description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <label htmlFor="price" className="text-black text-medium">
-            Price:
-          </label>
-          <input
-            type="number"
-            step="0.01"
+          <Input
+            htmlFor="price"
+            label="Price:"
+            type="text"
             id="price"
-            placeholder="Price.."
-            className="p-2 text-small text-black border-2"
-            value={price || ""}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            name="price"
+            placeholder="Type price..."
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
 
-          <label htmlFor="stock" className="text-black text-medium">
-            Stock Quantity:
-          </label>
-          <input
-            type="number"
-            id="stock"
-            placeholder="Stock quantity..."
-            className="p-2 text-small text-black border-2"
-            value={stock_qty || ""}
-            onChange={(e) => setStock_qty(Number(e.target.value))}
+          <Input
+            htmlFor="stock_qty"
+            label="Stock quantity:"
+            type="text"
+            id="stock_qty"
+            name="stock_qty"
+            placeholder="Type stock quantity..."
+            value={stock_qty}
+            onChange={(e) => setStock_qty(e.target.value)}
           />
 
           {error && (
@@ -110,7 +107,7 @@ export default function RegisterProduct() {
 
           <button
             type="button"
-            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
+            className="w-3/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleNewProduct}
           >
             Register new product

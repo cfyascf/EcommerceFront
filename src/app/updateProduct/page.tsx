@@ -16,17 +16,6 @@ export default function RegisterProduct() {
   const router = useRouter();
 
   const handleEditProduct = async () => {
-    if (
-      !productId || Number(productId) <= 0 ||
-      !name.trim() ||
-      !description.trim() ||
-      !price || price <= 0 ||
-      !stock || stock <= 0
-    ) {
-      setError(true);
-      return;
-    }
-
     try {
       const token = sessionStorage.getItem("Token");
       const response = await fetch(`http://localhost:8080/api/v1/products/${productId}`, {
@@ -124,7 +113,7 @@ export default function RegisterProduct() {
 
           <button
             type="button"
-            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
+            className="w-3/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleEditProduct}
           >
             Editar Produto

@@ -73,7 +73,7 @@ export default function Login() {
 
           <button
             type="button"
-            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
+            className="w-3/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleLogin}
           >
             Login
