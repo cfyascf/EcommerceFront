@@ -110,7 +110,7 @@ export default function RegisterProduct() {
 
           <button
             type="button"
-            className="bg-black mt-6 rounded-[10px] text-white p-3"
+            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleNewProduct}
           >
             Cadastrar novo produto

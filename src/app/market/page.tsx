@@ -1,10 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import templete from "@/img/Acer_Wallpaper_03_3840x2400.jpg";
-import { BuyButton } from "@/components/buy";
 import { Menu } from "@/components/menu";
 import { useState, useEffect } from "react";
+import { ProductCard } from "@/components/card";
 
 type IData = {
   id: number;
@@ -58,36 +56,7 @@ const Market = () => {
             </div>
           ) : data.length > 0 ? (
             data.map((item) => (
-              <div key={item.id} className="p-1">
-                <div className="shadow-lg m-2 rounded-[20px]">
-                  <div>
-                    <Image
-                      src={templete}
-                      alt={item.name}
-                      width={300}
-                      height={300}
-                      className="object-cover w-[300px] h-[300px] rounded-t-[15px]"
-                      priority={true}
-                    />
-                  </div>
-                  <div className="p-1">
-                    <div className="flex justify-center font-bold">{item.name}</div>
-                    <div className="flex justify-center">
-                      <p className="flex items-center text-center p-1">
-                        {item.description}
-                      </p>
-                    </div>
-                    <div className="flex justify-center">
-                      <p className="flex items-center font-semibold text-center p-1">
-                        R${item.price}
-                      </p>
-                    </div>
-                    <div className="flex justify-center">
-                      <BuyButton productId={item.id.toString()} />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProductCard name={item.name} id={item.id} description={item.description} price={item.price}/>
             ))
           ) : (
             <div className="text-center text-gray-500 font-bold">

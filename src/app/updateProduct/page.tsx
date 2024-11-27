@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Menu } from "@/components/menu";
 import { ROUTES } from "@/app/constants/routes";
+import { Input } from "@/components/input";
 
 export default function RegisterProduct() {
-  const [productId, setProductId] = useState<number>();
+  const [productId, setProductId] = useState<string>();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<number>();
@@ -15,9 +16,8 @@ export default function RegisterProduct() {
   const router = useRouter();
 
   const handleEditProduct = async () => {
-
     if (
-      !productId || productId <= 0 ||
+      !productId || Number(productId) <= 0 ||
       !name.trim() ||
       !description.trim() ||
       !price || price <= 0 ||
@@ -28,12 +28,12 @@ export default function RegisterProduct() {
     }
 
     try {
-        var token = sessionStorage.getItem("Token");
-        const response = await fetch(`http://localhost:8080/api/v1/products/${productId}`, {
+      const token = sessionStorage.getItem("Token");
+      const response = await fetch(`http://localhost:8080/api/v1/products/${productId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name,
@@ -52,10 +52,10 @@ export default function RegisterProduct() {
       console.log(result);
 
       setError(false);
-      alert("Produto editado com sucesso!");
+      alert("Product updated successfully!");
       router.push(ROUTES.market);
     } catch (error) {
-      console.error("Erro ao editar o produto:", error);
+      console.error("Failed to update product:", error);
       setError(true);
     }
   };
@@ -65,54 +65,58 @@ export default function RegisterProduct() {
       <Menu showRightMenu={true} />
       <div className="flex justify-center align-center mt-6 mb-6">
         <div className="flex flex-col p-6 rounded-md w-4/5 md:w-1/3">
-          <label htmlFor="productId" className="text-black text-medium">ID do Produto:</label>
-          <input
-            type="number"
+          <Input
+            htmlFor="productId"
+            label="Product ID:"
+            id="productId"
+            type="text"
             name="productId"
-            placeholder="ID do Produto"
-            className="p-2 text-small text-black border-2"
-            value={productId || ""}
-            onChange={(e) => setProductId(Number(e.target.value))}
+            placeholder="Product ID here..."
+            value={productId}
+            onChange={(e) => setProductId(e.target.value)}
           />
 
-          <label htmlFor="name" className="text-black text-medium">Nome do Produto:</label>
-          <input
+          <Input
+            htmlFor="name"
+            label="Product name:"
+            id="name"
             type="text"
             name="name"
-            placeholder="Digite o nome do produto"
-            className="p-2 border-2 text-small text-black"
+            placeholder="Product name here..."
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="description" className="text-black text-medium">Descrição:</label>
-          <input
+          <Input
+            htmlFor="description"
+            label="Descrição:"
+            id="description"
             type="text"
             name="description"
             placeholder="Digite a descrição do produto"
-            className="p-2 text-small text-black border-2"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <label htmlFor="price" className="text-black text-medium">Preço:</label>
-          <input
+          <Input
+            htmlFor="price"
+            label="Preço:"
+            id="price"
             type="number"
-            step="0.01"
             name="price"
             placeholder="Digite o preço"
-            className="p-2 text-small text-black border-2"
-            value={price || ""}
+            value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
           />
 
-          <label htmlFor="stock" className="text-black text-medium">Estoque:</label>
-          <input
+          <Input
+            htmlFor="stock"
+            label="Estoque:"
+            id="stock"
             type="number"
             name="stock"
             placeholder="Digite o estoque"
-            className="p-2 text-small text-black border-2"
-            value={stock || ""}
+            value={stock}
             onChange={(e) => setStock(Number(e.target.value))}
           />
 
@@ -120,7 +124,7 @@ export default function RegisterProduct() {
 
           <button
             type="button"
-            className="bg-black mt-6 rounded-[10px] text-white p-3"
+            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleEditProduct}
           >
             Editar Produto

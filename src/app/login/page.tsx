@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ROUTES } from "@/app/constants/routes";
 import { Menu } from "@/components/menu";
+import { Input } from "@/components/input";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -45,37 +46,34 @@ export default function Login() {
       <Menu showRightMenu={false} />
       <div className="flex justify-center align-center mt-6 mb-6">
         <div className="flex flex-col p-6 rounded-md w-4/5 md:w-1/3">
-          <label htmlFor="email" className="text-black text-medium">
-            Email:
-          </label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Type your email..."
-            className="p-2 border-2 text-small text-black"
+          <Input
+            htmlFor={"email"}
+            label={"Email:"}
+            type={"text"}
+            id={"email"}
+            name={"email"}
+            placeholder={"Type your email here..."}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <label htmlFor="password" className="text-black text-medium">
-            Senha:
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Type your password..."
-            className="p-2 text-small text-black border-2"
+          <Input
+            htmlFor={"password"}
+            label={"Password:"}
+            type={"password"}
+            id={"password"}
+            name={"password"}
+            placeholder={"Type your password here..."}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
 
           {error && <div className="text-red-600 mt-2">Incorrect credentials.</div>}
 
           <button
             type="button"
-            className="bg-black mt-6 rounded-[10px] text-white p-3"
+            className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2"
             onClick={handleLogin}
           >
             Login

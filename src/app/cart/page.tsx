@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ROUTES } from "../constants/routes";
 import Image from "next/image";
 
-import templete from '@/img/Acer_Wallpaper_03_3840x2400.jpg';
+import cat from '@/img/cat.jpg';
 import { Menu } from "@/components/menu";
 
 interface Product {
@@ -58,6 +58,8 @@ const Cart = () => {
 
                 const result = await res.json();
                 console.log(result)
+
+
                 const cart: IData = {
                     values: result.data.values,
                     products: Object.values(result.data.products)
@@ -134,9 +136,10 @@ const Cart = () => {
                     <div className="flex flex-col justify-center items-center">
                         {data?.products && data?.products.length! > 0 ? (
                             data!.products.map((item) => (
+                                <>
                                 <div key={item.id} className="flex shadow m-2 rounded-[18px] md:w-2/3">
                                     <Image
-                                        src={templete}
+                                        src={cat}
                                         alt={item.name}
                                         className="h-auto w-1/3 rounded-l-[20px] md:h-[120px] md:w-auto"
                                         priority={true}
@@ -149,16 +152,17 @@ const Cart = () => {
                                         <p className="text-[15px]">Stock Quantity: {item.stock_qty}</p>
                                         <p className="text-[17px] text-red-600">Price: {item.price}</p>
                                     </div>
-                                    <div className="flex flex-col justify-center text-[20px] absolute bottom-0 w-full border-2 bg-white p-2">
+                                </div>
+                                <div className="flex flex-col justify-center text-[20px] absolute bottom-0 w-full border-2 bg-white p-2">
                                         <p className="text-center">
                                             Total Price:
                                             <span className="font-bold">${data?.values.total_price}</span>
                                         </p>
                                         <div className="flex justify-center">
-                                            <button className="bg-black p-4 mt-2 rounded-[20px] text-white">Buy</button>
+                                            <button className="w-2/3 bg-pink-300 text-white rounded-md p-2 m-2">Buy</button>
                                         </div>
                                     </div>
-                                </div>
+                                </>
                             ))
                         ) : (
                             <div className="text-center text-gray-500">No product in the cart.</div>
