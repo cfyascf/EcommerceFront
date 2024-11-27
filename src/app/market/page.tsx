@@ -2,7 +2,7 @@
 
 import { Menu } from "@/components/menu";
 import { useState, useEffect } from "react";
-import { ProductCard } from "@/components/card";
+import { ProductCard } from "@/components/productCard";
 
 type IData = {
   id: number;

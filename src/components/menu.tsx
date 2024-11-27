@@ -35,7 +35,7 @@ export const Menu = ({ showRightMenu }: { showRightMenu: boolean }) => {
         {showRightMenu && (
           <>
             {isLoggedIn ? (
-              <div className="flex items-center">
+              <div className="flex items-center gap-5">
                 <Link href={ROUTES.updateProduct} className="m-1">
                   <h1 className="text-white">Edit</h1>
                 </Link>
@@ -43,7 +43,13 @@ export const Menu = ({ showRightMenu }: { showRightMenu: boolean }) => {
                   <h1 className="text-white">Cart</h1>
                 </Link>
                 <Link href={ROUTES.registerProduct} className="m-1">
-                <h1 className="text-white">Register</h1>
+                <h1 className="text-white">Register Product</h1>
+                </Link>
+                <Link href={ROUTES.registerSupplier} className="m-1">
+                <h1 className="text-white">Register Supplier</h1>
+                </Link>
+                <Link href={ROUTES.suppliers} className="m-1">
+                <h1 className="text-white">Suppliers</h1>
                 </Link>
                 <button
                   className="w-16 bg-white text-pink-700 rounded-md p-2 m-2 hover:bg-pink-700 hover:text-white"

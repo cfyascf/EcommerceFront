@@ -1,6 +1,8 @@
 export enum ROUTES{
     login = "/login",
-    registerUser = "/registerUser",
+    registerUser = "/user/registerUser",
+    registerSupplier = "/registerSupplier",
+    suppliers = "/suppliers",
     market = "/",
     cart = "/cart",
     registerProduct = "/registerProduct",
